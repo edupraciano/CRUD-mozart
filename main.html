@@ -17,9 +17,42 @@
       <div class="col-3">
         <input type="text" class="form-control" id="buscarRegistro" placeholder="Buscar...">
       </div>
-
     </div>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Apelido</th>
+          <th>Sexo</th>
+          <th>E-mail</th>
+          <th>Data de Nascimento</th>
+          <th>Telefone</th>
+          <th>Ações</th>
+        </tr>
+
+      <tbody id="tableBody-usuarios">
+
+      </tbody>
+
+      </thead>
+    </table>
   </main>
+
+  <template id="rowTemplate">
+    <tr>
+      <td class="template-nomes"></td>
+      <td class="template-apelido"></td>
+      <td class="template-sexo"></td>
+      <td class="template-e-mail"></td>
+      <td class="template-nascimento"></td>
+      <td class="template-telefone"></td>
+      <td class="template-acoes">
+        <i class="bi bi-pencil-square button-edit me-3" role="button"></i> <i class="bi bi-trash3-fill button-delete"
+          role="button"></i>
+      </td>
+    </tr>
+  </template>
 
   <!-- Modal Create -->
   <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">

@@ -3,10 +3,10 @@
 </script>
 
 <script>
+  window.addEventListener("load", buscarDados);
+
   function validarFormulario() {
     const form = document.getElementById("criarUsuario");
-    // console.log("entrou");
-    // return;
 
     google.script.run
       .withSuccessHandler(result => {
@@ -15,5 +15,42 @@
         criarModal.hide();
       })
       .agregarUsuario(form);
+  }
+
+  function buscarDados() {
+    google.script.run
+      .withSuccessHandler(dataUsuarios => {
+        let tableBody = document.getElementById('tableBody-usuarios');
+        var template = document.getElementById('rowTemplate');
+        var templateContent = template.content;
+
+        dataUsuarios.forEach(usuario => {
+          const tr = templateContent.cloneNode(true);
+
+          const nomesCol = tr.querySelector('.template-nomes');
+          const apelidoCol = tr.querySelector('.template-apelido');
+          const sexoCol = tr.querySelector('.template-sexo');
+          const emailCol = tr.querySelector('.template-e-mail');
+          const nascimentoCol = tr.querySelector('.template-nascimento');
+          const telefoneCol = tr.querySelector('.template-telefone');
+          const acoesCol = tr.querySelector('.template-acoes');
+          const editButton = tr.querySelector('.button-edit');
+          const deleteButton = tr.querySelector('.button-delete');
+
+          nomesCol.textContent = usuario[1];
+          apelidoCol.textContent = usuario[2];
+          sexoCol.textContent = usuario[3];
+          emailCol.textContent = usuario[4];
+          nascimentoCol.textContent = usuario[5];
+          telefoneCol.textContent = usuario[6];
+          editButton.dataset.usuarioId = usuario[0];
+          deleteButton.dataset.usuarioId = usuario[0];
+
+
+
+          tableBody.appendChild(tr);
+        })
+      })
+      .readUsers();
   }
 </script>

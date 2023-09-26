@@ -7,14 +7,27 @@
 
   function validarFormulario() {
     const form = document.getElementById("criarUsuario");
-
-    google.script.run
-      .withSuccessHandler(result => {
-        form.reset();
-        const criarModal = bootstrap.Modal.getOrCreateInstance('#createModal');
-        criarModal.hide();
-      })
-      .agregarUsuario(form);
+    const id = form.usuarioId.value;
+    console.log(id);
+    if (id === '') {
+      // Criar Usuário
+      google.script.run
+        .withSuccessHandler(result => {
+          form.reset();
+          const criarModal = bootstrap.Modal.getOrCreateInstance('#createModal');
+          criarModal.hide();
+        })
+        .agregarUsuario(form);
+    } else {
+      // Alteração de Usuário
+      google.script.run
+        .withSuccessHandler(result => {
+          form.reset();
+          const criarModal = bootstrap.Modal.getOrCreateInstance('#createModal');
+          criarModal.hide();
+        })
+        .editarUsuario(form)
+    }
   }
 
   function buscarDados() {
@@ -46,11 +59,61 @@
           editButton.dataset.usuarioId = usuario[0];
           deleteButton.dataset.usuarioId = usuario[0];
 
-
-
           tableBody.appendChild(tr);
         })
       })
       .readUsers();
+  }
+
+  function editarUsuarioModal(button) {
+    const tableRow = button.parentNode.parentNode;
+
+    const id = button.dataset.usuarioId;
+    const name = tableRow.cells[0].innerHTML;
+    const apelido = tableRow.cells[1].innerHTML;
+    const sexo = tableRow.cells[2].innerHTML;
+    const email = tableRow.cells[3].innerHTML;
+    const nascimento = tableRow.cells[4].innerHTML;
+    const telefone = tableRow.cells[5].innerHTML;
+
+    const criarModal = bootstrap.Modal.getOrCreateInstance('#createModal');
+    criarModal.show();
+
+    document.getElementById('nomeDoUsuario').value = name;
+    document.getElementById('apelido').value = apelido;
+    document.getElementById('sexoUsuario').value = sexo;
+    document.getElementById('email').value = email;
+    document.getElementById('dataDeNascimento').value = nascimento;
+    document.getElementById('telefone').value = telefone;
+    document.getElementById('usuarioId').value = id;
+  }
+
+  function apagarUsuarioModal(button) {
+    const id = button.dataset.usuarioId;
+    const apagarButton = document.getElementById('apagarUsuario');
+    apagarButton.dataset.usuarioId = id;
+    const apagarModal = bootstrap.Modal.getOrCreateInstance('#apagarModal');
+    apagarModal.show();
+  }
+
+  function clearForm() {
+    const form = document.getElementById('criarUsuario');
+    form.reset();
+    const dataAttributeId = document.getElementById('apagarUsuario');
+    dataAttributeId.removeAttribute('data-id');
+  }
+
+  function validarApagado(button) {
+    console.log(button)
+    const id = button.dataset.usuarioId;
+
+    google.script.run
+      .withSuccessHandler(result => {
+        const dataAttributeId = document.getElementById('apagarUsuario');
+        dataAttributeId.removeAttribute('data-usuario-id');
+        const apagarModal = bootstrap.Modal.getOrCreateInstance("#apagarModal");
+        apagarModal.hide();
+      })
+      .apagarUsuario(id);
   }
 </script>

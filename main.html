@@ -48,8 +48,8 @@
       <td class="template-nascimento"></td>
       <td class="template-telefone"></td>
       <td class="template-acoes">
-        <i class="bi bi-pencil-square button-edit me-3" role="button"></i> <i class="bi bi-trash3-fill button-delete"
-          role="button"></i>
+        <i onclick="editarUsuarioModal(this)" class="bi bi-pencil-square button-edit me-3" role="button"></i>
+        <i onclick="apagarUsuarioModal(this)" class="bi bi-trash3-fill button-delete" role="button"></i>
       </td>
     </tr>
   </template>
@@ -66,7 +66,12 @@
         <div class="modal-body">
 
           <form name="criarUsuario" id="criarUsuario">
+
             <div class="row mb-3">
+              <div class="mb-3">
+                <input id="usuarioId" type="text" class="form-control" placeholder="#" aria-label="usuarioId"
+                  name="usuarioId" hidden>
+              </div>
               <div class="col">
                 <input type="text" class="form-control" name="nomeDoUsuario" id="nomeDoUsuario" placeholder="Nome">
               </div>
@@ -96,8 +101,30 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+          <button onclick="clearForm()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
           <button onclick="validarFormulario()" type="button" class="btn btn-primary">Salvar Alterações</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal Delete  -->
+  <div class="modal fade" id="apagarModal" tabindex="-1" aria-labelledby="apagarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="apagarModalLabel">Excluir Usuário</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <p>Tens Certeza que queres Excluir este Usuário?</p>
+        </div>
+        <div class="modal-footer">
+          <button onclick="clearForm()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+          <button onclick="validarApagado(this)" type="button" class="btn btn-danger"
+            id="apagarUsuario">Excluir</button>
         </div>
       </div>
     </div>

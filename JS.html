@@ -6,6 +6,7 @@
   window.addEventListener("load", buscarDados);
 
   function validarFormulario() {
+    loadingOnOff();
     const form = document.getElementById("criarUsuario");
     const id = form.usuarioId.value;
     console.log(id);
@@ -13,6 +14,10 @@
       // Criar Usuário
       google.script.run
         .withSuccessHandler(result => {
+          loadingOnOff();
+          const tableBody = document.getElementById('tableBody-usuarios');
+          tableBody.innerHTML = "";
+          buscarDados();
           form.reset();
           const criarModal = bootstrap.Modal.getOrCreateInstance('#createModal');
           criarModal.hide();
@@ -22,6 +27,10 @@
       // Alteração de Usuário
       google.script.run
         .withSuccessHandler(result => {
+          loadingOnOff();
+          const tableBody = document.getElementById('tableBody-usuarios');
+          tableBody.innerHTML = "";
+          buscarDados();
           form.reset();
           const criarModal = bootstrap.Modal.getOrCreateInstance('#createModal');
           criarModal.hide();
@@ -109,6 +118,9 @@
 
     google.script.run
       .withSuccessHandler(result => {
+        const tableBody = document.getElementById('tableBody-usuarios');
+        tableBody.innerHTML = "";
+        buscarDados();
         const dataAttributeId = document.getElementById('apagarUsuario');
         dataAttributeId.removeAttribute('data-usuario-id');
         const apagarModal = bootstrap.Modal.getOrCreateInstance("#apagarModal");
@@ -116,4 +128,8 @@
       })
       .apagarUsuario(id);
   }
-</script>
+
+  function loadingOnOff() {
+    document.querySelector('#guardarUsuario').classList.toggle('d-none');
+    document.querySelector('#loadingButton').classList.toggle('d-none');
+  }
